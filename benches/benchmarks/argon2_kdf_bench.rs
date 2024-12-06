@@ -10,7 +10,7 @@ fn hash_password(password: &[u8]) -> String {
         .iterations(2)
         .memory_cost_kib(19456)
         .hash_length(32)
-        .threads(2)
+        .threads(1)
         .hash(password)
         .unwrap()
         .to_string()
