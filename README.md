@@ -61,3 +61,7 @@ Found 12 outliers among 100 measurements (12.00%)
   2 (2.00%) high mild
   10 (10.00%) high severe
 ```
+
+## Running the benchmark
+
+Just run `cargo bench` in the root of the project.
