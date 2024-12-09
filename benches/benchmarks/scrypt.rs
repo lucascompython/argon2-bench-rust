@@ -6,7 +6,7 @@ use scrypt::{
 
 fn hash_password(password: &[u8]) -> String {
     let salt = SaltString::generate(&mut OsRng);
-    let params = Params::new(16, 8, 1, 32).unwrap();
+    let params = Params::new(16, 8, 4, 32).unwrap();
     let password_hash = Scrypt
         .hash_password_customized(password, None, None, params, &salt)
         .unwrap()

@@ -1,65 +1,73 @@
-# Benchmark between different crates that provide password hashing in Rust using Argon2
+# Benchmark between different crates that provide password hashing in Rust
 
 The crates being here benchmarked are:
 
 - [argon2](https://crates.io/crates/argon2) - Rust Implementation
 - [rust-argon2](https://crates.io/crates/rust-argon2) - Rust Implementation
 - [argon2-kdf](https://crates.io/crates/argon2-kdf) - Bindings to the C implementation
+- [scrpyt](https://crates.io/crates/scrypt) - Rust Implementation
+- [bcrypt](https://crates.io/crates/bcrypt) - Rust Implementation
 
-They all have the same configuration, using the same parameters for the Argon2 algorithm. See below:
+Argon2 parameters used in the benchmark:
 
-```rust
-    let params = argon2::ParamsBuilder::new()
-        .m_cost(19456)
-        .t_cost(2)
-        .p_cost(1)
-        .output_len(32)
-        .build()
-```
+- `m=65536`
+- `t=4`
+- `p=4`
+- `password="password"`
+- `salt=randomly generated with rand::rngs::OsRng`
+- `salt_length=16`
+- `hash_length=32`
+- `version=13`
+- `variant=Argon2id`
+
+Scrypt parameters used in the benchmark:
+
+- `log_n=16`
+- `r=8`
+- `p=1`
+
+Bcrypt parameters used in the benchmark:
+
+- `cost=10`
 
 The benchmark is done using the [criterion](https://crates.io/crates/criterion) crate.  
 
 ## Results
 
 `argon2-kdf` seems to be the fastest.  
-These are the results of the benchmark on my machine (Intel Core i3-1005G1 @ 3.40GHz):
+These are the results of the benchmark on my machine AMD Ryzen 9 7950X (32) @ 5.88 GHz:
+
+Rust Results:
 
 ```bash
-argon2 hash password    time:   [36.586 ms 37.018 ms 37.511 ms]
-Found 17 outliers among 100 measurements (17.00%)
-  3 (3.00%) low severe
-  1 (1.00%) low mild
-  5 (5.00%) high mild
-  8 (8.00%) high severe
+argon2 hash password    time:   [71.344 ms 71.489 ms 71.638 ms]
 
-argon2 verify password  time:   [31.532 ms 31.953 ms 32.457 ms]
-Found 13 outliers among 100 measurements (13.00%)
-  4 (4.00%) high mild
-  9 (9.00%) high severe
+argon2 verify password  time:   [70.104 ms 70.234 ms 70.368 ms]
 
-rust_argon2 hash password
-                        time:   [34.020 ms 34.166 ms 34.336 ms]
-Found 16 outliers among 100 measurements (16.00%)
-  4 (4.00%) high mild
-  12 (12.00%) high severe
+rust_argon2 hash password    time:   [128.73 ms 128.91 ms 129.14 ms]
 
-rust_argon2 verify password
-                        time:   [33.730 ms 33.903 ms 34.110 ms]
-Found 13 outliers among 100 measurements (13.00%)
-  2 (2.00%) high mild
-  11 (11.00%) high severe
+rust_argon2 verify password    time:   [133.18 ms 133.37 ms 133.57 ms]
 
-argon2_kdf hash password
-                        time:   [12.987 ms 13.049 ms 13.125 ms]
-Found 9 outliers among 100 measurements (9.00%)
-  3 (3.00%) high mild
-  6 (6.00%) high severe
+argon2_kdf hash password    time:   [23.596 ms 23.644 ms 23.693 ms]
 
-argon2_kdf verify password
-                        time:   [12.949 ms 13.043 ms 13.159 ms]
-Found 12 outliers among 100 measurements (12.00%)
-  2 (2.00%) high mild
-  10 (10.00%) high severe
+argon2_kdf verify password    time:   [23.525 ms 23.594 ms 23.667 ms]
+
+scrypt hash password    time:   [89.648 ms 89.763 ms 89.896 ms]
+
+scrpyt verify password  time:   [90.840 ms 91.009 ms 91.185 ms]
+
+bcrypt hash password    time:   [37.686 ms 37.711 ms 37.739 ms]
+
+bcrypt verify password  time:   [37.660 ms 37.692 ms 37.733 ms]
+```
+
+PHP Results:
+
+```bash
+Bcrypt hash elapsed time: 34.893989562988 ms
+Bcrypt verify elapsed time: 34.30700302124 ms
+Argon2id hash elapsed time: 36.846876144409 ms
+Argon2id verify elapsed time: 37.317037582397 ms
 ```
 
 ## Running the benchmark

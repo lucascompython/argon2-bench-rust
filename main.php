@@ -10,7 +10,11 @@ $time_elapsed = (microtime(true) - $start) * 1000;
 echo "Bcrypt verify elapsed time: $time_elapsed ms\n";
 
 $start = microtime(true);
-$argon_hash = password_hash('password', PASSWORD_ARGON2ID);
+$argon_hash = password_hash('password', PASSWORD_ARGON2ID, [
+    'memory_cost' => PASSWORD_ARGON2_DEFAULT_MEMORY_COST,
+    'time_cost' => PASSWORD_ARGON2_DEFAULT_TIME_COST,
+    'threads' => 4,
+]);
 $time_elapsed = (microtime(true) - $start) * 1000;
 echo "Argon2id hash elapsed time: $time_elapsed ms\n";
 
@@ -22,9 +26,8 @@ echo "Argon2id verify elapsed time: $time_elapsed ms\n";
 echo "--------\n";
 
 echo "Bcrypt cost: " . PASSWORD_BCRYPT_DEFAULT_COST . "\n";
-echo "Bcrypt length: " . strlen($bcrypt_hash) . "\n";
 
 echo "Argon2id memory cost: " . PASSWORD_ARGON2_DEFAULT_MEMORY_COST . "\n";
 echo "Argon2id time cost: " . PASSWORD_ARGON2_DEFAULT_TIME_COST . "\n";
 echo "Argon2id threads: " . PASSWORD_ARGON2_DEFAULT_THREADS . "\n";
-echo "Argon2id hash: " . $argon_hash . "\n";
+echo "Argon2id hash length: 32\n";

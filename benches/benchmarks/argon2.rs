@@ -9,7 +9,7 @@ fn hash_password(password: &str) -> String {
     let params = argon2::ParamsBuilder::new()
         .m_cost(65536)
         .t_cost(4)
-        .p_cost(1)
+        .p_cost(4)
         .output_len(32)
         .build()
         .unwrap();

@@ -1,28 +1,37 @@
 use criterion::{black_box, criterion_group, Criterion};
+use rand::RngCore;
 
-fn hash_password(password: &[u8], salt: &[u8]) -> String {
+fn hash_password(password: &[u8]) -> String {
+    let salt = generate_salt();
     let config = rust_argon2::Config {
         variant: rust_argon2::Variant::Argon2id,
         version: rust_argon2::Version::Version13,
         mem_cost: 65536,
         time_cost: 4,
-        lanes: 1,
+        lanes: 4,
         secret: &[],
         ad: &[],
         hash_length: 32,
     };
-    rust_argon2::hash_encoded(password, salt, &config).unwrap()
+    rust_argon2::hash_encoded(password, &salt, &config).unwrap()
 }
 
 fn verify_password(hash: &str, password: &[u8]) -> bool {
     rust_argon2::verify_encoded(hash, password).unwrap()
 }
 
+fn generate_salt() -> [u8; 16] {
+    let mut salt = [0u8; 16];
+    let mut rng = rand::rngs::OsRng::default();
+    rng.fill_bytes(&mut salt);
+    salt
+}
+
 fn criterion_benchmark(c: &mut Criterion) {
     c.bench_function("rust_argon2 hash password", |b| {
-        b.iter(|| hash_password(black_box(b"password"), black_box(b"randomsalt")))
+        b.iter(|| hash_password(black_box(b"password")))
     });
-    let hash = hash_password(b"password", b"randomsalt");
+    let hash = hash_password(b"password");
     c.bench_function("rust_argon2 verify password", |b| {
         b.iter(|| verify_password(black_box(&hash), black_box(b"password")))
     });
