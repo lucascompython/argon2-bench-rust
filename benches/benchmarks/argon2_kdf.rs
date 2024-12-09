@@ -17,7 +17,6 @@ fn hash_password(password: &[u8]) -> String {
 }
 
 fn verify_password(hash: &str, password: &[u8]) -> bool {
-    println!("{}", hash);
     let hash = argon2_kdf::Hash::from_str(hash).unwrap();
     hash.verify(password)
 }
