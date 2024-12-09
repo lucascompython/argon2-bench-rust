@@ -4,8 +4,8 @@ fn hash_password(password: &[u8], salt: &[u8]) -> String {
     let config = rust_argon2::Config {
         variant: rust_argon2::Variant::Argon2id,
         version: rust_argon2::Version::Version13,
-        mem_cost: 19456,
-        time_cost: 2,
+        mem_cost: 65536,
+        time_cost: 4,
         lanes: 1,
         secret: &[],
         ad: &[],

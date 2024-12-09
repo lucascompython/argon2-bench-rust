@@ -42,7 +42,6 @@ dependencies = [
  "argon2",
  "argon2-kdf",
  "bcrypt",
- "bcrypt-pbkdf",
  "criterion",
  "rand",
  "rust-argon2",
@@ -108,17 +107,6 @@ dependencies = [
  "getrandom",
  "subtle",
  "zeroize",
-]
-
-[[package]]
-name = "bcrypt-pbkdf"
-version = "0.10.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6aeac2e1fe888769f34f05ac343bbef98b14d1ffb292ab69d4608b3abc86f2a2"
-dependencies = [
- "blowfish",
- "pbkdf2",
- "sha2",
 ]
 
 [[package]]

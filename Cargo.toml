@@ -7,7 +7,6 @@ edition = "2021"
 argon2 = { version = "0.5.3" }
 argon2-kdf = "1.5.3"
 bcrypt = "0.16.0"
-bcrypt-pbkdf = "0.10.0"
 rand = "0.8.5"
 rust-argon2 = { package = "rust-argon2", version = "2.1.0" }
 scrypt = "0.11.0"

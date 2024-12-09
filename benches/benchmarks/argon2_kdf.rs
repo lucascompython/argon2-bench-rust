@@ -7,8 +7,8 @@ fn hash_password(password: &[u8]) -> String {
     Hasher::new()
         .algorithm(argon2_kdf::Algorithm::Argon2id)
         .salt_length(16)
-        .iterations(2)
-        .memory_cost_kib(19456)
+        .iterations(4)
+        .memory_cost_kib(65536)
         .hash_length(32)
         .threads(1)
         .hash(password)
@@ -17,6 +17,7 @@ fn hash_password(password: &[u8]) -> String {
 }
 
 fn verify_password(hash: &str, password: &[u8]) -> bool {
+    println!("{}", hash);
     let hash = argon2_kdf::Hash::from_str(hash).unwrap();
     hash.verify(password)
 }

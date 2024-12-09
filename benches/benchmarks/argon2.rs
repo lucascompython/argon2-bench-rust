@@ -7,8 +7,8 @@ use criterion::{black_box, criterion_group, Criterion};
 fn hash_password(password: &str) -> String {
     let salt = SaltString::generate(&mut OsRng);
     let params = argon2::ParamsBuilder::new()
-        .m_cost(19456)
-        .t_cost(2)
+        .m_cost(65536)
+        .t_cost(4)
         .p_cost(1)
         .output_len(32)
         .build()
