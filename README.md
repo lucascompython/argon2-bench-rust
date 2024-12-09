@@ -61,7 +61,7 @@ bcrypt hash password    time:   [37.686 ms 37.711 ms 37.739 ms]
 bcrypt verify password  time:   [37.660 ms 37.692 ms 37.733 ms]
 ```
 
-PHP Results:
+PHP Results for comparison:
 
 ```bash
 Bcrypt hash elapsed time: 34.893989562988 ms
