@@ -34,31 +34,26 @@ The benchmark is done using the [criterion](https://crates.io/crates/criterion) 
 
 ## Results
 
-`argon2-kdf` seems to be the fastest.  
+`argon2-kdf` seems to be the fastest closely followed by `argon2`, you shold probably use the `argon2` crate, since it's the most supported one.  
 These are the results of the benchmark on my machine AMD Ryzen 9 7950X (32) @ 5.88 GHz:
 
 Rust Results:
 
 ```bash
-argon2 hash password    time:   [71.344 ms 71.489 ms 71.638 ms]
+argon2 hash password    time:   [25.174 ms 26.122 ms 27.159 ms]
+argon2 verify password  time:   [24.874 ms 25.482 ms 26.178 ms]
 
-argon2 verify password  time:   [70.104 ms 70.234 ms 70.368 ms]
+rust_argon2 hash password  time:   [43.375 ms 43.566 ms 43.777 ms]
+rust_argon2 verify password  time:   [43.815 ms 43.951 ms 44.087 ms]
 
-rust_argon2 hash password    time:   [128.73 ms 128.91 ms 129.14 ms]
+argon2_kdf hash password  time:   [24.274 ms 24.397 ms 24.525 ms]
+argon2_kdf verify password  time:   [24.592 ms 24.880 ms 25.214 ms]
 
-rust_argon2 verify password    time:   [133.18 ms 133.37 ms 133.57 ms]
+scrypt hash password    time:   [102.15 ms 103.21 ms 104.33 ms]
+scrpyt verify password  time:   [99.658 ms 99.804 ms 99.972 ms]
 
-argon2_kdf hash password    time:   [23.596 ms 23.644 ms 23.693 ms]
-
-argon2_kdf verify password    time:   [23.525 ms 23.594 ms 23.667 ms]
-
-scrypt hash password    time:   [89.648 ms 89.763 ms 89.896 ms]
-
-scrpyt verify password  time:   [90.840 ms 91.009 ms 91.185 ms]
-
-bcrypt hash password    time:   [37.686 ms 37.711 ms 37.739 ms]
-
-bcrypt verify password  time:   [37.660 ms 37.692 ms 37.733 ms]
+bcrypt hash password    time:   [36.898 ms 36.909 ms 36.922 ms]
+bcrypt verify password  time:   [36.969 ms 36.998 ms 37.031 ms]
 ```
 
 PHP Results for comparison:

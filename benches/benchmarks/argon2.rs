@@ -1,11 +1,13 @@
+use std::hint::black_box;
+
 use argon2::{
-    password_hash::{rand_core::OsRng, PasswordHash, PasswordHasher, PasswordVerifier, SaltString},
     Argon2,
+    password_hash::{PasswordHash, PasswordHasher, PasswordVerifier, SaltString},
 };
-use criterion::{black_box, criterion_group, Criterion};
+use criterion::{Criterion, criterion_group};
 
 fn hash_password(password: &str) -> String {
-    let salt = SaltString::generate(&mut OsRng);
+    let salt = SaltString::generate();
     let params = argon2::ParamsBuilder::new()
         .m_cost(65536)
         .t_cost(4)
@@ -20,7 +22,7 @@ fn hash_password(password: &str) -> String {
 
 fn verify_password(hash: &str, password: &str) -> bool {
     let argon2 = Argon2::default();
-    let hash = PasswordHash::new(&hash).unwrap();
+    let hash = PasswordHash::new(hash).unwrap();
     argon2.verify_password(password.as_bytes(), &hash).is_ok()
 }
 

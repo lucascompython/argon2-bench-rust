@@ -1,5 +1,7 @@
-use criterion::{black_box, criterion_group, Criterion};
-use rand::RngCore;
+use std::hint::black_box;
+
+use criterion::{Criterion, criterion_group};
+use rand::TryRngCore;
 
 fn hash_password(password: &[u8]) -> String {
     let salt = generate_salt();
@@ -12,6 +14,7 @@ fn hash_password(password: &[u8]) -> String {
         secret: &[],
         ad: &[],
         hash_length: 32,
+        thread_mode: rust_argon2::ThreadMode::Parallel,
     };
     rust_argon2::hash_encoded(password, &salt, &config).unwrap()
 }
@@ -22,8 +25,9 @@ fn verify_password(hash: &str, password: &[u8]) -> bool {
 
 fn generate_salt() -> [u8; 16] {
     let mut salt = [0u8; 16];
-    let mut rng = rand::rngs::OsRng::default();
-    rng.fill_bytes(&mut salt);
+    let mut rng = rand::rngs::OsRng;
+    // rng.fill_bytes(&mut salt);
+    rng.try_fill_bytes(&mut salt).unwrap();
     salt
 }
 

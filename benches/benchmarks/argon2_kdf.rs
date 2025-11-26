@@ -1,7 +1,7 @@
-use std::str::FromStr;
+use std::{hint::black_box, str::FromStr};
 
 use argon2_kdf::Hasher;
-use criterion::{black_box, criterion_group, Criterion};
+use criterion::{Criterion, criterion_group};
 
 fn hash_password(password: &[u8]) -> String {
     Hasher::new()

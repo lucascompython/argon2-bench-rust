@@ -1,5 +1,7 @@
+use std::hint::black_box;
+
 use bcrypt::{hash, verify};
-use criterion::{black_box, criterion_group, Criterion};
+use criterion::{Criterion, criterion_group};
 
 fn hash_password(password: &str) -> String {
     hash(password, 10).unwrap()

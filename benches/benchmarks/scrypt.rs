@@ -1,17 +1,18 @@
-use criterion::{black_box, criterion_group, Criterion};
+use std::hint::black_box;
+
+use criterion::{Criterion, criterion_group};
 use scrypt::{
-    password_hash::{rand_core::OsRng, PasswordHash, PasswordHasher, PasswordVerifier, SaltString},
     Params, Scrypt,
+    password_hash::{PasswordHash, PasswordHasher, PasswordVerifier, SaltString},
 };
 
 fn hash_password(password: &[u8]) -> String {
-    let salt = SaltString::generate(&mut OsRng);
-    let params = Params::new(16, 8, 4, 32).unwrap();
-    let password_hash = Scrypt
+    let salt = SaltString::generate();
+    let params = Params::new(16, 8, 4).unwrap();
+    Scrypt
         .hash_password_customized(password, None, None, params, &salt)
         .unwrap()
-        .to_string();
-    password_hash
+        .to_string()
 }
 
 fn verify_password(hash: &str, password: &[u8]) -> bool {

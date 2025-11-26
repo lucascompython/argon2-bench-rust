@@ -1,18 +1,18 @@
 [package]
 name = "argon2-bench-rs"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 
 [dependencies]
-argon2 = { version = "0.5.3" }
-argon2-kdf = "1.5.3"
-bcrypt = "0.16.0"
-rand = "0.8.5"
-rust-argon2 = { package = "rust-argon2", version = "2.1.0" }
-scrypt = "0.11.0"
+argon2 = { version = "0.6.0-rc.2", features = ["getrandom", "parallel"] }
+argon2-kdf = "1.6.2"
+bcrypt = "0.17.1"
+rand = "0.9"
+rust-argon2 = { package = "rust-argon2", version = "3.0.0" }
+scrypt = "0.12.0-rc.3"
 
 [dev-dependencies]
-criterion = { version = "0.5", default-features = false, features = [
+criterion = { version = "0.7", default-features = false, features = [
     "cargo_bench_support",
     "rayon",
 ] }
